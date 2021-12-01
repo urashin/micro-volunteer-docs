@@ -59,7 +59,7 @@
 
 5.DockerのComposeの作成
 cd ~/work/mysql-compose/
-cd ~/work/java-compose/
+cd ~/work/app-compose/
 
 docker-compose build
 docker images
