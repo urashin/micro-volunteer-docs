@@ -1,0 +1,69 @@
+=================
+インフラ作業
+=================
+
+1.Amazon Linuxの設定
+	(1)タイムゾーン設定(UTC-> JST)
+	$	cp -p /etc/localtime /etc/localtime.202121128
+	$	sudo ln -sf  /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+	$	date
+		⇒JSTになっていること。
+
+	(2)LANG設定(en_US.UTF8->ja_JP.utf8)
+	$	/etc/sysconfig/i18n
+	$	sudo localectl set-locale LANG=ja_JP.utf8
+	$	source /etc/locale.conf
+	一度ログアウトして再度ログイン。
+	$	locale
+		⇒ja_JP.utf8となっていることを確認。
+
+	(3)syslogのタイムゾーン反映
+	$	systemctl status rsyslog
+	$	sudo systemctl restart rsyslog
+	$	systemctl status rsyslog
+
+
+2.Docker関連パッケージのインストール
+	(1)インスタンスでインストールされているパッケージとパッケージキャッシュを更新。
+	$	sudo yum update -y
+
+	(2)最新の Docker Engine パッケージをインストール。(Amazon Linux2）
+	$	sudo amazon-linux-extras install docker
+
+	(3)Docker サービスを開始します。
+	$	sudo service docker start
+	$	sudo service docker status
+
+	(4)ec2-user を docker グループに追加。 
+	$	sudo usermod -a -G docker ec2-user
+
+	再ログイン
+
+	(5)ec2-user が sudo を使用せずに Docker コマンドを実行できることを確認。 
+	$	sudo docker info
+
+
+
+3.Docker-Composeの導入
+	(1)ダウンロード
+	$	sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose- $(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+
+	(2)実行権限付与
+	$	chmod +x /usr/local/bin/docker-compose
+
+
+4.Gitのインストール
+	(1)最新の Docker Engine パッケージをインストール
+	$	sudo yum install git
+
+
+5.DockerのComposeの作成
+cd ~/work/mysql-compose/
+cd ~/work/app-compose/
+
+docker-compose build
+docker images
+docker-compose up -d
+docker-compose ps
+
+docker-compose psexec java bash
