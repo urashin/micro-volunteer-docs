@@ -1,0 +1,17 @@
+version: '3.6'
+services:
+  springboot:
+    restart: always
+    container_name: volunteer_springboot
+    image: java:latest 
+    ports:
+      - 8080:8080
+    networks:
+      docker-mysql_operationseg:
+       ipv4_address: 172.25.0.2
+    tty: true
+    command:
+     /usr/bin/java -jar /usr/src/build/libs/micro-volunteer-pf-0.0.1-SNAPSHOT.jar &
+networks:
+    docker-mysql_operationseg:
+       external: true

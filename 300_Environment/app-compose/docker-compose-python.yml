@@ -1,0 +1,18 @@
+version: '3.6'
+services:
+  python:
+    restart: always
+    image: phython_comp:latest
+    container_name: volunteer_phython
+    ports:
+      - 8000:8000
+    tty: true
+    networks:  
+      docker-mysql_operationseg:
+       ipv4_address: 172.25.0.4
+    command:
+      python /app/main.py &
+
+networks:
+    docker-mysql_operationseg:
+       external: true         
