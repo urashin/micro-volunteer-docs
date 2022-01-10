@@ -1,0 +1,28 @@
+version: '3'
+services:
+  # MySQL
+  db:
+    image: mysql:latest
+    container_name: volunteer_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: volunteerdb
+      MYSQL_USER: volunteer
+      MYSQL_PASSWORD: volunteer
+      TZ: 'Asia/Tokyo'
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+    - ./mysql/data:/var/lib/mysql
+    - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    - ./mysql/db/:/docker-entrypoint-initdb.d
+    networks:
+      operationseg: 
+        ipv4_address: 172.25.0.3
+    ports:
+    - 3306:3306
+networks:
+  operationseg:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.25.0.0/24    
