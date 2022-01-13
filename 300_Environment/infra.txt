@@ -1,8 +1,87 @@
 =================
+構成
+=================
+volunteer_springboot 172.25.0.2
+↓参照
+volunteer_mysql      172.25.0.3
+↑参照
+volunteer_phython　  172.25.0.4
+
+=================
 インフラ作業
 =================
 
-1.Amazon Linuxの設定
+1.Docker関連パッケージのインストール
+	(1)インスタンスでインストールされているパッケージとパッケージキャッシュを更新。
+	$	sudo yum update -y
+
+	(2)最新の Docker Engine パッケージをインストール。(Amazon Linux2）
+	$	sudo amazon-linux-extras install docker
+
+	(3)Docker サービスを開始します。
+	$	sudo service docker start
+	$	sudo service docker status
+        $       sudo systemctl enable docker
+
+	(4)ec2-user を docker グループに追加。 
+	$	sudo usermod -a -G docker ec2-user
+
+	再ログイン
+
+	(5)ec2-user が sudo を使用せずに Docker コマンドを実行できることを確認。 
+	$	docker info
+
+
+
+2.Docker-Composeの導入
+	(1)ダウンロード
+	$	sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose- $(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+
+	(2)実行権限付与
+	$	chmod +x /usr/local/bin/docker-compose
+
+
+3.Gitのインストール
+	(1)最新の Docker Engine パッケージをインストール
+	$	sudo yum install git
+
+	(2)Docksを同期
+	$	git clone git@github.com:urashin/micro-volunteer-docs.git
+	$	cd 300_Environment
+
+4.DockerのComposeの作成・起動
+
+	(1)MySQL（アプリがDB接続するため先に起動）
+	$	cd docker-mysql
+	$	docker-mysql配下mysql\my.cnfとmysql\db\micro_volunteer.sqlを配置。
+	$	docker-compose up -d
+	$	cd ../
+
+	(2)SPRINGBOOT
+	$	cd app-compose/app
+	$	git clone git@github.com:urashin/micro-volunteer-pf.git
+	$	cd micro-volunteer-pf
+	$	git checkout api-mock
+		src/main/resources/application.yml配置。api_uri修正　http://172.25.0.4:8000/v1/sns/send-request-volunteer
+	$	docker build app/ -t java
+	$	docker-compose --file docker-compose-java.yml up -d
+	$	cd ../../
+
+	(3)Phython
+	$ 	cd app-compose
+	app-compose配下にmicro-volunteer-pf-python格納。
+	$	app-compose/micro-volunteer-pf-python/config.py配置。
+		HTTP_HOST変更	172.25.0.4
+		MYSQL_HOST変更	172.25.0.3
+		JAVA_HOST変更	http://172.25.0.2:8080
+	$	cd micro-volunteer-pf-python
+	$	docker build ./ -t phython_comp
+	$	cd ../
+	$	docker-compose --file docker-compose-python.yml up -d
+
+
+【参考】
+不要「.Amazon Linuxの設定（本筋ではない）
 	(1)タイムゾーン設定(UTC-> JST)
 	$	cp -p /etc/localtime /etc/localtime.202121128
 	$	sudo ln -sf  /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
@@ -23,75 +102,15 @@
 	$	systemctl status rsyslog
 
 
-2.Docker関連パッケージのインストール
-	(1)インスタンスでインストールされているパッケージとパッケージキャッシュを更新。
-	$	sudo yum update -y
 
-	(2)最新の Docker Engine パッケージをインストール。(Amazon Linux2）
-	$	sudo amazon-linux-extras install docker
-
-	(3)Docker サービスを開始します。
-	$	sudo service docker start
-	$	sudo service docker status
-        $       sudo systemctl enable docker
-
-	(4)ec2-user を docker グループに追加。 
-	$	sudo usermod -a -G docker ec2-user
-
-	再ログイン
-
-	(5)ec2-user が sudo を使用せずに Docker コマンドを実行できることを確認。 
-	$	sudo docker info
-
-
-
-3.Docker-Composeの導入
-	(1)ダウンロード
-	$	sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose- $(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
-
-	(2)実行権限付与
-	$	chmod +x /usr/local/bin/docker-compose
-
-
-4.Gitのインストール
-	(1)最新の Docker Engine パッケージをインストール
-	$	sudo yum install git
-
-
-5.DockerのComposeの作成
 ●ごみの削除
 docker image prune -a
 docker container prune
 docker volume prune
 docker network prune
 
-●MySQL（アプリがDB接続するため先に起動）
-spring.datasource.url
-docker-mysql配下
-docker-compose up -d
-docker stop volunteer_mysql
 
-●SPRINGBOOT
-micro-volunteer-pf/src/main/resources/application.properties
-spring.datasource.url用更新
-app-compose配下
-app-compose/app/配下にmicro-volunteer-pf格納。
-docker build app/ -t java
-docker-compose --file docker-compose-java.yml up -d
-docker stop volunteer_springboot
-
-●Phython
-app-compose配下にmicro-volunteer-pf-python格納。
-app-compose/micro-volunteer-pf-python/config.py
-HTTP_HOST変更
-MYSQL_HOST変更
-JAVA_HOST変更
-
-app-compose/micro-volunteer-pf-python配下
-
-docker build ./ -t phython_comp
-
-app-compose配下で
-docker-compose --file docker-compose-python.yml up -d
-
+●Docker停止
 docker stop volunteer_phython
+docker stop volunteer_springboot
+docker stop volunteer_mysql
