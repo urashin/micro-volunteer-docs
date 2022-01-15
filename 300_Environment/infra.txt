@@ -75,8 +75,8 @@ volunteer_phython　  172.25.0.4
 		MYSQL_HOST変更	172.25.0.3
 		JAVA_HOST変更	http://172.25.0.2:8080
 	$	cd micro-volunteer-pf-python
-	$	docker build ./ -t phython_comp
-	$	cd ../
+	$	docker build ./ -t python_comp
+	$	cd ../..
 	$	docker-compose --file docker-compose-python.yml up -d
 
 
