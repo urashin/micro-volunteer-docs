@@ -2,8 +2,8 @@ version: '3.6'
 services:
   python:
     restart: always
-    image: phython_comp:latest
-    container_name: volunteer_phython
+    image: python_comp:latest
+    container_name: volunteer_python
     ports:
       - 8000:8000
     tty: true
