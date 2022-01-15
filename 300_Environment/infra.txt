@@ -111,6 +111,6 @@ docker network prune
 
 
 ●Docker停止
-docker stop volunteer_phython
+docker stop volunteer_python
 docker stop volunteer_springboot
 docker stop volunteer_mysql
