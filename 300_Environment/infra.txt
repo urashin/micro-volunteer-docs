@@ -59,13 +59,13 @@ volunteer_phython　  172.25.0.4
 
 	(2)SPRINGBOOT
 	$	cd app-compose/app
-	$	git clone git@github.com:urashin/micro-volunteer-pf.git
+	$	git clone https://github.com/urashin/micro-volunteer-pf.git
 	$	cd micro-volunteer-pf
-	$	git checkout api-mock
 		src/main/resources/application.yml配置。api_uri修正　http://172.25.0.4:8000/v1/sns/send-request-volunteer
+	$	cd ../..
 	$	docker build app/ -t java
 	$	docker-compose --file docker-compose-java.yml up -d
-	$	cd ../../
+	$	cd ../
 
 	(3)Phython
 	$ 	cd app-compose
