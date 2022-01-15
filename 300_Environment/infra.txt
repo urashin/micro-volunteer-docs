@@ -67,9 +67,9 @@ volunteer_phython　  172.25.0.4
 	$	docker-compose --file docker-compose-java.yml up -d
 	$	cd ../
 
-	(3)Phython
-	$ 	cd app-compose
-	app-compose配下にmicro-volunteer-pf-python格納。
+	(3)Python
+	$ 	cd app-compose/app
+	$	git clone https://github.com/urashin/micro-volunteer-pf-python.git
 	$	app-compose/micro-volunteer-pf-python/config.py配置。
 		HTTP_HOST変更	172.25.0.4
 		MYSQL_HOST変更	172.25.0.3
