@@ -46,8 +46,8 @@ volunteer_phython　  172.25.0.4
 	$	sudo yum install git
 
 	(2)Docksを同期
-	$	git clone git@github.com:urashin/micro-volunteer-docs.git
-	$	cd 300_Environment
+	$	git clone https://github.com/urashin/micro-volunteer-docs.git
+	$	cd micro-volunteer-docs/300_Environment/
 
 4.DockerのComposeの作成・起動
 
