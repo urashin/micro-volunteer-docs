@@ -38,7 +38,7 @@ volunteer_phython　  172.25.0.4
 	$	sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
 
 	(2)実行権限付与
-	$	chmod +x /usr/local/bin/docker-compose
+	$	sudo chmod +x /usr/local/bin/docker-compose
 
 
 3.Gitのインストール
