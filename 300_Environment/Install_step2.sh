@@ -76,7 +76,6 @@ cd micro-volunteer-docs/300_Environment/
 
 #4-(1)MySQL（アプリがDB接続するため先に起動）
 cd docker-mysql
-docker-mysql配下mysql\my.cnfとmysql\db\micro_volunteer.sqlを配置。
 docker-compose up -d
 cd ../
 
@@ -95,7 +94,6 @@ cd ../
 # (3)Python
 cd app-compose/app
 git clone https://github.com/urashin/micro-volunteer-pf-python.git
-#app-compose/micro-volunteer-pf-python/config.py配置。
 mv ${PYTHON_CONFIG_PY_PATH} ./micro-volunteer-pf-python/
 cd micro-volunteer-pf-python
 docker build ./ -t python_comp
