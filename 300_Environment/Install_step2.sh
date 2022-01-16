@@ -65,7 +65,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 #3.Gitのインストール
 #3-(1)最新の Docker Engine パッケージをインストール
-sudo yum install git
+sudo yum -y install git
 
 #3-(2)Docksを同期
 git clone https://github.com/urashin/micro-volunteer-docs.git
