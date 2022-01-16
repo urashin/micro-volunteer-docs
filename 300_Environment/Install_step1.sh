@@ -4,7 +4,7 @@ echo "1-(1)インスタンスでインストールされているパッケージ
 sudo yum update -y
 
 echo "1-(2)最新の Docker Engine パッケージをインストール。(Amazon Linux2）"
-sudo amazon-linux-extras install docker
+sudo amazon-linux-extras install docker -y
 
 echo "1-(3)Docker サービスを開始します。"
 sudo service docker start
