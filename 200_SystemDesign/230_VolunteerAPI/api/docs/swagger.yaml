@@ -1,0 +1,1249 @@
+swagger: "2.0"
+info:
+  description: "This is a sample server LMS server.       Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters."
+  version: "1.0.0"
+  title: "Swagger LMS"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "capup.com"
+basePath: "/v2"
+tags:
+- name: "capup-lms"
+  description: "Everything about your lms"
+  externalDocs:
+    description: "Find out more"
+    url: "http://swagger.io"
+
+schemes:
+- "https"
+- "http"
+paths:
+  # done      
+  /school/profile/:
+    post:
+      tags:
+      - "school/profile"
+      summary: "学校情報の登録"
+      description: ""
+      operationId: "postSchoolProfile"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/School"
+      responses:
+        "200":
+          description: "school profile registered."
+        "400":
+          description: "Invalid Order"
+    put:
+      tags:
+      - "school/profile"
+      summary: "学校情報の更新"
+      description: ""
+      operationId: "putSchoolProfile"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/School"
+      responses:
+        "200":
+          description: "school profile updated."
+        "400":
+          description: "Invalid Order"
+  /school/profile/{school_id}:
+    get:
+      tags:
+      - "school/profile"
+      summary: "学校情報の取得"
+      description: ""
+      operationId: "getSchoolProfile"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: school_id
+        type: "string"
+        description: ""
+        required: true
+      responses:
+        "200":
+          $ref: "#/definitions/School"
+        "400":
+          description: "Invalid Order"
+
+  # done      
+  /users/register:
+    post:
+      tags:
+      - "user"
+      summary: "ユーザー登録:email/password設定"
+      description: "onetime URLからセッションを生成する(２要素認証とかこの後？）"
+      operationId: "registerUser"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "user registration information"
+        required: true
+        schema:
+          $ref: "#/definitions/RegisterNewUser"
+      responses:
+        "400":
+          description: "Invalid Order"
+    get:
+      tags:
+      - "user"
+      summary: "ユーザー情報：メールからのLP"
+      description: ""
+      operationId: "getRegisterUser"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "user registration information"
+        required: true
+        schema:
+          $ref: "#/definitions/RegisterNewUser"
+      responses:
+        "200":
+          description: "registration OK."
+        "400":
+          description: "Invalid Order"
+
+  /users/profile:
+    post:
+      tags:
+      - "user"
+      summary: "プロフィール登録"
+      description: ""
+      operationId: "postUserProfile"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "プロフィール情報を登録する"
+        required: true
+        schema:
+          $ref: "#/definitions/UserPrivateInfo"
+      responses:
+        "400":
+          description: "Invalid Order"
+
+    put:
+      tags:
+      - "user"
+      summary: "プロフィール更新"
+      description: ""
+      operationId: "putUserProfile"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "プロフィール情報を更新する"
+        required: true
+        schema:
+          $ref: "#/definitions/UserPrivateInfo"
+      responses:
+        "400":
+          description: "Invalid Order"
+
+    get:
+      tags:
+      - "user"
+      summary: "プロフィール取得"
+      description: ""
+      operationId: "getUserProfile"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          $ref: "#/definitions/User"
+        "400":
+          description: "Invalid Order"
+
+  # done
+  /users/profile/images:
+    post:
+      tags:
+      - "user"
+      summary: "Userアイコン画像のアップロード"
+      description: ""
+      operationId: "uploadUserIcon"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "additionalMetadata"
+        in: "formData"
+        description: "Additional data to pass to server"
+        required: false
+        type: "string"
+      - name: "file"
+        in: "formData"
+        description: "file to upload"
+        required: false
+        type: "file"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+
+  # done
+  /curriculum/top:
+    get:
+      tags:
+      - "curriculum"
+      summary: "Get curriculum information"
+      description: ""
+      operationId: "getTopDisplay"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/TopDisplayResponse"
+        "405":
+          description: "Invalid input"
+
+  # done
+  /curriculum/curriculum:
+    post:
+      tags:
+      - "curriculum"
+      summary: "カリキュラム追加"
+      description: ""
+      operationId: "curriculum"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "追加するカリキュラム"
+        required: true
+        schema:
+          $ref: "#/definitions/Curriculum"
+      responses:
+        "400":
+          description: "Invalid Curriculum"
+    put:
+      tags:
+      - "curriculum"
+      summary: "カリキュラム更新"
+      description: ""
+      operationId: "put_curriculum"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "追加するカリキュラム"
+        required: true
+        schema:
+          $ref: "#/definitions/Curriculum"
+      responses:
+        "400":
+          description: "Invalid Curriculum"
+  # done      
+  /curriculum/{curriculum_id}/{template_flg}:
+    get:
+      tags:
+      - "curriculum"
+      summary: "Get curriculum information"
+      description: ""
+      operationId: "getCurriculumInfo"
+      parameters:
+      - name: "curriculum_id"
+        in: "path"
+        type: "integer"
+        required: true
+      - name: "template_flg"
+        in: "path"
+        type: "integer"
+        required: true
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ResponseCurriculum"
+        "405":
+          description: "Invalid input"
+      security:
+      - capup_auth:
+        - "write:curriculums"
+        - "read:curriculums"
+
+  # done
+  /curriculum/{curriculum_id}/images:
+    post:
+      tags:
+      - "curriculum"
+      summary: "Curriculumアイコン画像のアップロード"
+      description: ""
+      operationId: "uploadCurriculumIcon"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "curriculum_id"
+        in: "path"
+        description: "ID of curriculum to update"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "additionalMetadata"
+        in: "formData"
+        description: "Additional data to pass to server"
+        required: false
+        type: "string"
+      - name: "file"
+        in: "formData"
+        description: "file to upload"
+        required: false
+        type: "file"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+
+
+  # done
+  /curriculum/lesson-templates:
+    post:
+      tags:
+      - "curriculum"
+      summary: "レッスンひな形追加/修正"
+      description: ""
+      operationId: "newLessonTemplate"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "追加するカリキュラム"
+        required: true
+        schema:
+          $ref: "#/definitions/LessonTemplate"
+      responses:
+        "400":
+          description: "Invalid Lesson"
+
+    delete:
+      tags:
+      - "curriculum"
+      summary: "レッスンひな形削除"
+      description: ""
+      operationId: "deleteLessonTemplate"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "削除するレッスンひな形ID"
+        required: true
+        schema:
+          type: "object"
+          properties:
+            lesson_template_id:
+              type: "integer"
+              format: "int64"
+              example: "1"
+      responses:
+        "400":
+          description: "Invalid Lesson"
+
+
+  # done
+  /curriculum/{curriculum_id}/files:
+    post:
+      tags:
+      - "curriculum"
+      summary: "教材ファイルのアップロード"
+      description: ""
+      operationId: "uploadFiles"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "curriculum_id"
+        in: "path"
+        description: "ID of curriculum to update"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "additionalMetadata"
+        in: "formData"
+        description: "Additional data to pass to server"
+        required: false
+        type: "string"
+      - name: "dir"
+        in: "formData"
+        description: "upload directory"
+        required: true
+        type: "string"
+      - name: "file"
+        in: "formData"
+        description: "file to upload"
+        required: true
+        type: "file"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+    delete:
+      tags:
+      - "curriculum"
+      summary: "教材ファイルの削除"
+      description: ""
+      operationId: "dleteFile"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "curriculum_id"
+        in: "path"
+        description: "ID of curriculum to update"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "body"
+        description: "削除するファイルID"
+        required: true
+        schema:
+          type: "object"
+          properties:
+            file_id:
+              type: "integer"
+              format: "int64"
+              example: "1"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        
+  # done
+  /curriculum/course:
+    post:
+      tags:
+      - "course"
+      summary: "コース追加"
+      description: ""
+      operationId: "addCourse"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "追加するコース"
+        required: true
+        schema:
+          $ref: "#/definitions/Course"
+      responses:
+        "400":
+          description: "Invalid Curriculum"
+
+  # done
+  /curriculum/course/{course_id}:
+    get:
+      tags:
+      - "course"
+      summary: "Get course information"
+      description: ""
+      operationId: "getCourseInfo"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        type: "integer"
+        required: true
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ResponseCourse"
+        "405":
+          description: "Invalid courseId"
+
+  # done
+  /curriculum/course/images:
+    post:
+      tags:
+      - "course"
+      summary: "courseアイコン画像のアップロード"
+      description: ""
+      operationId: "uploadCourseIcon"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "course_id"
+        in: "formData"
+        description: "ID of curriculum to update"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "additionalMetadata"
+        in: "formData"
+        description: "Additional data to pass to server"
+        required: false
+        type: "string"
+      - name: "file"
+        in: "formData"
+        description: "file to upload"
+        required: false
+        type: "file"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+
+  # xxx
+  /curriculum/course/lesson:
+    post:
+      tags:
+      - "course"
+      summary: "courseにlessonを追加する"
+      description: ""
+      operationId: "addLesson"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "追加するlesson"
+        required: true
+        schema:
+          type: "array"
+          items:
+            $ref: "#/definitions/Lesson"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+
+    put:
+      tags:
+      - "course"
+      summary: "lesson情報を修正する"
+      description: ""
+      operationId: "putLesson"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "追加するlesson"
+        required: true
+        schema:
+          type: "array"
+          items:
+            $ref: "#/definitions/Lesson"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+
+  # done
+  /curriculum/course/teachers:
+    post:
+      tags:
+      - "course"
+      summary: "コースに教師を追加する"
+      description: ""
+      operationId: "addCourseTeachers"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "追加する教師リスト"
+        required: true
+        schema:
+          type: "array"
+          items:
+            $ref: "#/definitions/CourseUser"
+      responses:
+        "400":
+          description: "Invalid Curriculum"
+
+  # done
+  /curriculum/course/course-students:
+    post:
+      tags:
+      - "course"
+      summary: "コースに生徒を追加する"
+      description: ""
+      operationId: "addCourseStudents"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "追加する生徒リスト"
+        required: true
+        schema:
+          type: "array"
+          items:
+            $ref: "#/definitions/CourseUser"
+      responses:
+        "400":
+          description: "Invalid Curriculum"
+
+  # done
+  /curriculum/course/attendances:
+    post:
+      tags:
+      - "course"
+      summary: "出席記録"
+      description: ""
+      operationId: "recordOfAttendance"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "追加する生徒リスト"
+        required: true
+        schema:
+          type: "object"
+          properties:
+            lesson_id:
+              type: "integer"
+              format: "int64"
+            user_id:
+              type: "integer"
+              format: "int64"
+              description: "user id"
+              example: "1"
+      responses:
+        "400":
+          description: "Invalid Curriculum"
+
+  /curriculum/course/attendance-note:
+    post:
+      tags:
+      - "course"
+      summary: "授業態度メモ"
+      description: ""
+      operationId: "attendanceNote"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "追加する生徒リスト"
+        required: true
+        schema:
+          type: "object"
+          properties:
+            lesson_id:
+              type: "integer"
+              format: "int64"
+            user_id:
+              type: "integer"
+              format: "int64"
+              description: "user id"
+              example: "1"
+            memo:
+              type: "string"
+              description: "授業態度メモ"
+      responses:
+        "400":
+          description: "Invalid Curriculum"
+
+  # done
+  /curriculum/lesson:
+    post:
+      tags:
+      - "lesson"
+      summary: "Lesson追加"
+      description: ""
+      operationId: "newLesson"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "追加するLessonの内容"
+        required: true
+        schema:
+          $ref: "#/definitions/Lesson"
+      responses:
+        "400":
+          description: "Invalid Lesson"
+
+  # done
+  /curriculum/lesson/{lesson_id}:
+    get:
+      tags:
+      - "lesson"
+      summary: "Get lesson information"
+      description: "lesson idに該当するLesson情報を取得する"
+      operationId: "getLessonInfo"
+      parameters:
+      - name: "lesson_id"
+        in: "path"
+        type: "integer"
+        required: true
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ResponseLesson"
+        "405":
+          description: "Invalid input"
+
+  # done
+  /curriculum/lesson/images:
+    post:
+      tags:
+      - "lesson"
+      summary: "アイコン画像のアップロード"
+      description: ""
+      operationId: "uploadLessonIcon"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "lesson_id"
+        in: "formData"
+        description: "ID of lesson to update"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "additionalMetadata"
+        in: "formData"
+        description: "Additional data to pass to server"
+        required: false
+        type: "string"
+      - name: "file"
+        in: "formData"
+        description: "file to upload"
+        required: false
+        type: "file"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+
+  # done
+  /curriculum/lesson/workings:
+    post:
+      tags:
+      - "lesson"
+      summary: "working追加"
+      description: ""
+      operationId: "addWorking"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "追加するWorkng"
+        required: true
+        schema:
+          $ref: "#/definitions/Working"
+      responses:
+        "400":
+          description: "Invalid Working"
+
+    delete:
+      tags:
+      - "lesson"
+      summary: "working削除"
+      description: ""
+      operationId: "deleteWorking"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "宿題などの削除"
+        required: true
+        schema:
+          type: "object"
+          properties:
+            lesson_id:
+              type: "integer"
+              format: "int64"
+            working_id:
+              type: "integer"
+              format: "int64"
+      responses:
+        "400":
+          description: "Invalid Working"
+    
+definitions:
+  RegisterNewUser:
+    type: "object"
+    properties:
+      onetimeurl:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+      role:
+        type: "integer"
+        
+  Login:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+      password:
+        type: "string"
+        
+  School:
+    type: "object"
+    properties:
+      school_id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      address:
+        type: "string"
+      tel:
+        type: "string"
+      icon_path:
+        type: "string"
+      summary:
+        type: "string"
+        
+  User:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      tel:
+        type: "string"
+      mail:
+        type: "string"
+      icon_path:
+        type: "string"
+      address:
+        type: "string"
+      school_id:
+        type: "integer"
+        format: "int64"
+
+  UserPrivateInfo:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      tel:
+        type: "string"
+      mail:
+        type: "string"
+      password:
+        type: "string"
+      icon_path:
+        type: "string"
+      address:
+        type: "string"
+      school_id:
+        type: "integer"
+        format: "int64"
+      status:
+        type: "integer"
+        format: "int"
+        
+  Curriculum:
+    type: "object"
+    properties:
+      school_id:
+        type: "integer"
+        format: "int64"
+      created_at:
+        description: "データ登録日時"
+        type: "string"
+        format: "date-time"
+      updated_at:
+        description: "データ更新日時"
+        type: "string"
+        format: "date-time"
+      icon_path:
+        type: "string"
+      main_title:
+        type: "string"
+      sub_title:
+        type: "string"
+      n_frames:
+        type: "integer"
+        format: "int64"
+      max_n_students:
+        type: "integer"
+        format: "int32"
+      overview:
+        type: "string"
+                
+  ResponseCurriculum:
+    type: "object"
+    properties:
+      school_id:
+        type: "integer"
+        format: "int64"
+      created_at:
+        description: "データ登録日時"
+        type: "string"
+        format: "date-time"
+      updated_at:
+        description: "データ更新日時"
+        type: "string"
+        format: "date-time"
+      icon_path:
+        type: "string"
+      main_title:
+        type: "string"
+      sub_title:
+        type: "string"
+      n_frames:
+        type: "integer"
+        format: "int64"
+      max_n_students:
+        type: "integer"
+        format: "int32"
+      overview:
+        type: "string"
+      lesson_templates:
+        type: "array"
+        items:
+          $ref: "#/definitions/LessonTemplate"
+      files:
+        type: "array"
+        items:
+          type: "string"
+
+
+  LessonSummary:
+    type: "object"
+    properties:
+      school_id:
+        type: "integer"
+        format: "int64"
+      curriculum_id:
+        type: "integer"
+        format: "int64"
+      lesson_count:
+        type: "integer"
+        format: "int64"
+
+
+  LessonTemplate:
+    type: "object"
+    properties:
+      lesson_summary_id:
+        type: "integer"
+        format: "int64"
+      title:
+        type: "string"
+      overview:
+        type: "string"
+
+          
+  Lesson:
+    type: "object"
+    description: "レッスン1回分の情報"
+    properties:
+      curriculum_id:
+        type: "integer"
+        format: "int64"
+      lesson_id:
+        type: "integer"
+        format: "int64"
+      title:
+        type: "string"
+      start_datetime:
+        description: "レッスン開始時刻"
+        type: "string"
+        format: "date-time"
+      end_datetime:
+        description: "レッスン終了時刻"
+        type: "string"
+        format: "date-time"
+      icon_path:
+        type: "string"
+      summary:
+        type: "string"
+
+
+  Course:
+    type: "object"
+    properties:
+      curriculum_id:
+        type: "integer"
+        format: "int64"
+      course_id:
+        type: "integer"
+        format: "int64"
+      title:
+        type: "string"
+      start_date:
+        type: "string"
+        format: "date"
+      end_date:
+        type: "string"
+        format: "date"
+      icon_path:
+        type: "string"
+      summary:
+        type: "string"
+
+  CourseUser:
+    type: "object"
+    properties:
+      course_id:
+        type: "integer"
+        format: "int64"
+      start_date:
+        type: "string"
+        format: "date"
+      end_date:
+        type: "string"
+        format: "date"
+
+  LessonTeacher:
+    type: "object"
+    properties:
+      teacher_id:
+        type: "integer"
+        format: "int64"
+      lesson_id:
+        type: "integer"
+        format: "int64"
+      lesson_date:
+        type: "string"
+        format: "date"
+      attend:
+        description: "出席フラグ"
+        type: "integer"
+      note:
+        description: "授業メモ"
+        type: "string"
+
+  LessonStudent:
+    type: "object"
+    properties:
+      student_id:
+        type: "integer"
+        format: "int64"
+      lesson_id:
+        type: "integer"
+        format: "int64"
+      user_id:
+        type: "integer"
+        format: "int64"
+      lesson_date:
+        type: "string"
+        format: "date"
+      attend:
+        description: "出席フラグ"
+        type: "integer"
+      note:
+        description: "授業態度メモ"
+        type: "string"
+
+  ResponseCourse:
+    type: "object"
+    properties:
+      course_id:
+        type: "integer"
+        format: "int64"
+      curriculum_id:
+        type: "integer"
+        format: "int64"
+      title:
+        type: "string"
+      start_date:
+        type: "string"
+        format: "date"
+      end_date:
+        type: "string"
+        format: "date"
+      icon_path:
+        type: "string"
+      summary:
+        type: "string"
+      lessons:
+        type: "array"
+        items:
+          $ref: "#/definitions/Lesson"
+      teachers:
+        type: "array"
+        items:
+          $ref: "#/definitions/User"
+      students:
+        type: "array"
+        items:
+          $ref: "#/definitions/User"
+      files:
+        type: "array"
+        items:
+          type: "string"
+          
+  ResponseLesson:
+    type: "object"
+    properties:
+      lesson_id:
+        type: "integer"
+        format: "int64"
+      curriculum_id:
+        type: "integer"
+        format: "int64"
+      title:
+        type: "string"
+      start_date:
+        description: "レッスン開始時刻"
+        type: "string"
+        format: "date-time"
+      end_date:
+        description: "レッスン開始時刻"
+        type: "string"
+        format: "date-time"
+      icon_path:
+        type: "string"
+      summary:
+        type: "string"
+      working_list:
+        type: "array"
+        items:
+          $ref: "#/definitions/Working"
+
+  Attendance:       
+    type: "object"
+    properties:
+      lesson_id:
+        type: "integer"
+        format: "int64"
+      user_id:
+        type: "integer"
+        format: "int64"
+      memo:
+        type: "string"
+        description: "授業態度メモ"
+
+
+  WorkingTemplate:
+    type: "object"
+    properties:
+      school_id:
+        type: "integer"
+        format: "int64"
+      icon_path:
+        type: "string"
+      title:
+        type: "string"
+      description:
+        type: "string"
+      file_path:
+        type: "string"
+    
+  Working:
+    type: "object"
+    properties:
+      school_id:
+        type: "integer"
+        format: "int64"
+      lesson_id:
+        type: "integer"
+        format: "int64"
+      icon_path:
+        type: "string"
+      title:
+        type: "string"
+      description:
+        type: "string"
+      file_path:
+        type: "string"
+  
+  # 今後のLesson予定  
+  LessonSchedules:
+    type: "array"
+    items:
+      $ref: "#/definitions/Lesson"
+
+  # 過去のLesson
+  PastLessons:
+    type: "array"
+    items:
+      $ref: "#/definitions/Lesson"
+      
+  TopDisplayResponse:
+    type: "object"
+    properties:
+      lessonschedules:
+        $ref: "#/definitions/LessonSchedules"
+      pastlessons:
+        $ref: "#/definitions/PastLessons"
+
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      type:
+        type: "string"
+      message:
+        type: "string"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
+  
+
+components:  
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+      description: Credentials or access token for API
+
+security:
+- Bearer: []
+
