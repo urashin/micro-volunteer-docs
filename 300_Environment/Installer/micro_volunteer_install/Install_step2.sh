@@ -1,4 +1,18 @@
 
+create_springboot_properties()
+{
+cat <<EOF > application.properties
+spring.datasource.url=jdbc:mysql://${MYSQL_HOST}:3306/volunteerdb
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.username=volunteer
+spring.datasource.password=volunteer
+spring.datasource.sql-script-encoding=UTF-8
+spring.datasource.hikari.connection-timeout=5000
+spring.mvc.pathmatch.matching-strategy=ant_path_matcher
+
+EOF
+}
+
 create_springboot_yml()
 {
 cat <<EOF > application.yml
@@ -49,8 +63,10 @@ docker info
 
 # create config file
 source ./config.sh
+create_springboot_properties
 create_springboot_yml
 create_python_config
+APPLICATION_PROPERTIES_PATH=`pwd`/application.properties
 APPLICATION_YML_PATH=`pwd`/application.yml
 PYTHON_CONFIG_PY_PATH=`pwd`/config.py
 
@@ -82,6 +98,7 @@ cd ../
 #4-(2)SPRINGBOOT
 cd app-compose/app
 git clone https://github.com/urashin/micro-volunteer-pf.git
+mv ${APPLICATION_PROPERTIES_PATH} ./micro-volunteer-pf/src/main/resources/
 mv ${APPLICATION_YML_PATH} ./micro-volunteer-pf/src/main/resources/
 cd micro-volunteer-pf
 cd ../..
