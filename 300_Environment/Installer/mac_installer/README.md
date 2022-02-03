@@ -64,7 +64,13 @@ sh Install_step2.sh
 
 
 ## 5. 完了
-### 5.1 awsから抜ける
+### 5.1 動作確認
+以下のコマンドでサーバが起動していることを確認
+```
+curl -XGET http://localhost:8080/v1/hello
+```
+```{"result":"OK"}```が戻ってきたら、OK.
+### 5.2 awsから抜ける
 ```
 exit
 ```
