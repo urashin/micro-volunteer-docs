@@ -1,4 +1,4 @@
-# macからawsにmicro-volunteer環境構築を行う方法
+# awsにmicro-volunteer環境構築を行う方法(macの場合)
 
 ## 1. 構築対象
 [こちらの資料](https://github.com/urashin/micro-volunteer-docs/blob/master/200_SystemDesign/210_SystemConfiguration/micro-volunteer_SystemConfiguration.pdf)のawsに該当する部分の構築
