@@ -1,6 +1,12 @@
 # micro-volunteer-docs
 
-ここではマイクロボランティアに関連したドキュメントを管理する
+
+## 説明
+こちらは[Tokyo OSS Party!!](https://tokyo-oss-party.com/)を通して作成されたmicro-volunteerのドキュメントを管理するrepositoryです。
+
+
+
+## ここで管理している資料
 
 - [100_ServiceDesign : サービス設計](https://github.com/urashin/micro-volunteer-docs/tree/master/100_ServiceDesign)
   - [110_Theme : 対象とする課題](https://github.com/urashin/micro-volunteer-docs/blob/master/100_ServiceDesign/110_Theme.md)
@@ -26,3 +32,8 @@
 - 400_Operation : 運用方法（未作成）
   - 運用例
   - 運用マニュアル
+
+
+## 開発記録シート
+https://hackmd.io/bGfYUrk5QqmNpEN1lOG_Bg?view
+
