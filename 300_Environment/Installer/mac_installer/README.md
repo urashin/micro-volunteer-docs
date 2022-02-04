@@ -14,7 +14,7 @@
 #### 2.1.3 「起動」
 ### 2.2 キーペアファイルを作成
 #### 2.2.1 プライベートキーをダウンロード
-このときダウンロードしたプライベートキーは、「2.3 aws接続用の鍵ファイルを配置」で使用するものです。
+このときダウンロードしたプライベートキーは、[「3.3 aws接続用の鍵ファイルを配置」](https://github.com/urashin/micro-volunteer-docs/blob/master/300_Environment/Installer/mac_installer/README.md#33-aws%E6%8E%A5%E7%B6%9A%E7%94%A8%E3%81%AE%E9%8D%B5%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E9%85%8D%E7%BD%AE)で使用するものです。
 
 ## 3. 構築手順（前半）
 #### 3.1 ローカルにドキュメントごとInstallerを取得
