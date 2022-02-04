@@ -33,6 +33,7 @@ AWS_KEY=(aws接続に使う鍵ファイルのパス)
 cp ${AWS_KEY} ./aws.pem
 chmod 600 aws.pem
 ```
+AWS_KEYには[ここ](https://github.com/urashin/micro-volunteer-docs/blob/master/300_Environment/Installer/mac_installer/README.md#22-%E3%82%AD%E3%83%BC%E3%83%9A%E3%82%A2%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E4%BD%9C%E6%88%90)でダウンロードした鍵ファイルを指定してください。
 
 #### 3.4 awsにInstallerをコピー
 ```
