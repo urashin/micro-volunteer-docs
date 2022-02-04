@@ -14,8 +14,15 @@
     - [222_VolunteerAPI : API設計](https://github.com/urashin/micro-volunteer-docs/tree/master/200_SystemDesign/220_Platform/222_VolunteerAPI)
   - 230_Application : アプリ側
 - [300_Environment : 環境構築](https://github.com/urashin/micro-volunteer-docs/tree/master/300_Environment)
-  - dockerファイル
-  - dockerを使用した構築手順
+  - platform側
+　　  - Installer
+   　　 - [macからawsのEC2に対してサーバ構築を行う手順](https://github.com/urashin/micro-volunteer-docs/blob/master/300_Environment/Installer/mac_installer/README.md)
+    　　- windowsからawsのEC2に対してサーバ構築を行う手順（準備中）
+  　　- [app-compose spring boot, pythonのdockerファイル](https://github.com/urashin/micro-volunteer-docs/tree/master/300_Environment/app-compose)
+  　　- [docker-mysql MySQLのdockerファイル](https://github.com/urashin/micro-volunteer-docs/tree/master/300_Environment/docker-mysql)
+  　　- [Installerを使わず、手作業で構築する際の手順](https://github.com/urashin/micro-volunteer-docs/blob/master/300_Environment/infra.txt)
+  - クライアントアプリ側
+    - [ビルド手順](https://github.com/urashin/micro-volunteer-app-sample/blob/feature/AppBuildManual/BuildManual/BuildApp.md)
 - 400_Operation : 運用方法（未作成）
   - 運用例
   - 運用マニュアル
