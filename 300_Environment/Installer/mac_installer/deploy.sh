@@ -1,4 +1,5 @@
 SSH_KEY=aws.pem
+ENCRYPT_KEY="set_encrypt_string_xinn3rMFwiwDQYJKoZIhvcNAQEBBQADSwAwSAJBAPfawZ1qJkJP2j"
 
 create_envfile()
 {
@@ -28,7 +29,7 @@ LINE_MESSAGE_ACCEPT_BUTTON_LABEL="いま行きます！"
 LINE_MESSAGE_IGNORE_BUTTON_LABEL="今は無理"
 
 # encrypt key
-ENCRYPT_KEY="Random_String"
+ENCRYPT_KEY=${ENCRYPT_KEY}
 
 
 #
@@ -47,6 +48,23 @@ EOF
 
 }
 
+create_setup_script()
+{
+
+cat <<EOF > ./add_handicap.sh
+echo "[聴覚しょうがい]を追加"
+curl -XPOST -H "Content-Type: application/json" http://${1}:8080/v1/admin/add_handicap_type -d '{"auth_code":"${2}", "handicap_name": "聴覚しょうがい", "icon_path":"1","comment":""}'
+echo " "
+
+echo "[車椅子]を追加"
+curl -XPOST -H "Content-Type: application/json" http://${1}:8080/v1/admin/add_handicap_type -d '{"auth_code":"${2}", "handicap_name": "車椅子", "icon_path":"2","comment":""}'
+echo " "
+
+EOF
+
+}
+
+
 if [ "${1}" = "" ]
 then
         echo "引数としてawsのホストを指定してください"
@@ -55,6 +73,7 @@ fi
 
 create_envfile ${1}
 create_config ${1}
+create_setup_script ${1} ${ENCRYPT_KEY}
 
 tar cvzf ./micro_volunteer_install.tgz ./micro_volunteer_install
 
