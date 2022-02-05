@@ -28,7 +28,7 @@
     - [docker-mysql MySQLのdockerファイル](https://github.com/urashin/micro-volunteer-docs/tree/master/300_Environment/docker-mysql)
     - [Installerを使わず、手作業で構築する際の手順](https://github.com/urashin/micro-volunteer-docs/blob/master/300_Environment/infra.txt)
   - クライアントアプリ側
-    - [ビルド手順](https://github.com/urashin/micro-volunteer-app-sample/blob/feature/AppBuildManual/BuildManual/BuildApp.md)
+    - [ビルド手順](https://github.com/urashin/micro-volunteer-app-sample/blob/master/BuildManual/BuildApp.md)
 - 400_Operation : 運用方法（未作成）
   - 運用例
   - 運用マニュアル
