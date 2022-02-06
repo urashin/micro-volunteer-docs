@@ -7,42 +7,90 @@
 https://gitforwindows.org/
 ```
 ### 1.2.GitForWindowsのダウンロード
+```
 ->Downloadを選択。
 ダウンロードフォルダーにダウンロードされたことを確認。
 （ファイル名の例）Git-2.35.1.2-64-bit.exe
+```
 
 ##　2.Git For Windowsのインストール・起動
 ### 2.1.インストーラ実行・Informaiton画面
-　Git-2.35.1.2-64-bit.exeを実行し、そのままNext
+```
+　Git-2.35.1.2-64-bit.exe（ファイル名はサンプル）を実行し、そのままNext
+```
 ### 2.2.Selecr Destination Location
-　C:\Program Files\GitのままNext
+```
+　C:\Program Files\Git
+```
+　のままNext
+
 ### 2.3.Select Components
 　変更せずNext
+
 ### 2.4.Select Start Menu Folder
-　GitのままNext
+```
+　Git
+```
+　のままNext
+
 ### 2.5.Choosing the default editor used by Git 
-　Use Vim (the ubiquitous text editor) as Git's default editorのままNext
-### 2.6.Adjusting the name of the initial branch in new reppositories 
-　Let Git DecideのままNext
+```
+　Use Vim (the ubiquitous text editor) as Git's default editor
+```
+　のままNext
+
+### 2.6.Adjusting the name of the initial branch in new reppositories
+```
+　Let Git Decide
+```
+　のままNext
 ### 2.7.Adjusting your PATH environment 
-　Use Git from Git Bash onlyに変更してNext
+```
+　Use Git from Git Bash only 
+```
+　に変更してNext
+
 ### 2.8.Choosing the SSH executable 
-　Use bundled OpenSSH NextのままNext
+```
+　Use bundled OpenSSH Next
+```
+　のままNext
+
 ### 2.9.Choosing HTTPS transport backend 
-　Use the OpenSSL libraryのままNext
+```
+　Use the OpenSSL library
+```
+ のままNext
+
 ### 2.10.Configuring the line ending conversions 
-　Checkout Windows-style, commit Unix-style line endingsのままNext
+```
+　Checkout Windows-style, commit Unix-style line endings
+```
+　のままNext
 
 ### 2.11.Configuring the terminal emulator to use with Git Bash
-　Use MinTTY (the default terminal of MSYS2)のままNext
+```
+　Use MinTTY (the default terminal of MSYS2)
+``` 
+　のままNext
+
 ### 2.12.Chose the default bahavior of `git pull`
-　Default(fast-forward or merge)のままNext
+```
+　Default(fast-forward or merge)
+```
+　のままNext
+
 ### 2.13.Choose a credential hepler 
+```
 　Git Credential Manager
+```
+　のままNext
 
 ### 2.14.Configuring extra options
+```
 　Enable file system cacheing
 　Enable symbolic links
+```
 　にチェックを入れて、Next
 
 ### 2.15.Configuring experimental options
@@ -52,15 +100,21 @@ https://gitforwindows.org/
 　Finish
 
 ### 2.17.Git For WIndows の起動
+```
 　スタート->Git->Git Bashを選択。
-### 2.18.デスクトップ上にカレントディレクトリを移動。
-  cd Desktop
+```
 
+### 2.18.デスクトップ上にカレントディレクトリを移動。
+```
+　$ cd Desktop
+```
 
 以降はMACの構築手順3.以降を実施してください。
 
-なお、管理者権限が使えない場合を想定して、awsにInstallerをコピーまで代行してもらえれば
-以降はsshConnect.batを使用して作業再開できる。
+
+# 管理者権限ユーザが使えない場合
+
+awsにInstallerをコピーまで代行してもらえれば以降はsshConnect.batを使用して作業再開できる。
 
 同階層上にsshConnect.bat、accesspoint.iniとSSH鍵を配置。
 accesspoint.iniのSSH_KEYをSSH鍵のファイル名、AWS_HOSTを接続先のAWSホスト名へ書き換え。
