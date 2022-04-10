@@ -1,0 +1,29 @@
+version: "3"
+services:
+  nginx:
+    image: nginx:stable
+    restart: always
+    volumes:
+      - ./etc/nginx/conf.d:/etc/nginx/conf.d
+      - ./etc/letsencrypt:/etc/letsencrypt
+      - ./var/www/html:/var/www/html
+    networks:
+      docker-mysql_operationseg:
+         ipv4_address: 172.25.0.5
+    ports:
+      - 80:80
+      - 443:443
+
+  certbot:
+    image: certbot/certbot:v1.7.0
+    volumes:
+      - ./etc/letsencrypt:/etc/letsencrypt
+      - ./var/www/html:/var/www/html
+    command: ["--version"]
+    networks:  
+      docker-mysql_operationseg:
+         ipv4_address: 172.25.0.6
+
+networks:
+    docker-mysql_operationseg:
+       external: true               
