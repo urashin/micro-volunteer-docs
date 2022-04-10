@@ -1,105 +1,122 @@
 =================
 構成
 =================
-volunteer_springboot 172.25.0.2
-↓参照
-volunteer_mysql      172.25.0.3
-↑参照
-volunteer_phython　  172.25.0.4
+HTTP(リダイレクト)
+HTTPS ->  docker-webserver_nginx(80,443) 172.25.0.5 (Lets Encrypt) <-　更新  docker-webserver_certbot172.25.0.6
+                 ↓参照
+          volunteer_phython(8000)　  172.25.0.4
+                 ↓
+          volunteer_mysql(3306)      172.25.0.3
+                 ↑参照
+          volunteer_springboot(8080) 172.25.0.2
 
 =================
 インフラ作業
 =================
 
 1.Docker関連パッケージのインストール
-	(1)インスタンスでインストールされているパッケージとパッケージキャッシュを更新。
-	$	sudo yum update -y
+        (1)インスタンスでインストールされているパッケージとパッケージキャッシュを更新。
+        $       sudo yum update -y
 
-	(2)最新の Docker Engine パッケージをインストール。(Amazon Linux2）
-	$	sudo amazon-linux-extras install docker
+        (2)最新の Docker Engine パッケージをインストール。(Amazon Linux2）
+        $       sudo amazon-linux-extras install docker
 
-	(3)Docker サービスを開始します。
-	$	sudo service docker start
-	$	sudo service docker status
+        (3)Docker サービスを開始します。
+        $       sudo service docker start
+        $       sudo service docker status
         $       sudo systemctl enable docker
 
-	(4)ec2-user を docker グループに追加。 
-	$	sudo usermod -a -G docker ec2-user
+        (4)ec2-user を docker グループに追加。
+        $       sudo usermod -a -G docker ec2-user
 
-	再ログイン
+        再ログイン
 
-	(5)ec2-user が sudo を使用せずに Docker コマンドを実行できることを確認。 
-	$	docker info
+        (5)ec2-user が sudo を使用せずに Docker コマンドを実行できることを確認。
+        $       docker info
 
 
 
 2.Docker-Composeの導入
-	(1)ダウンロード
-	$	sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+        (1)ダウンロード
+        $       sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
 
-	(2)実行権限付与
-	$	sudo chmod +x /usr/local/bin/docker-compose
+        (2)実行権限付与
+        $       sudo chmod +x /usr/local/bin/docker-compose
 
 
 3.Gitのインストール
-	(1)最新の Docker Engine パッケージをインストール
-	$	sudo yum install git
+        (1)最新の Docker Engine パッケージをインストール
+        $       sudo yum install git
 
-	(2)Docksを同期
-	$	git clone https://github.com/urashin/micro-volunteer-docs.git
-	$	cd micro-volunteer-docs/300_Environment/
+        (2)Docksを同期
+        $       git clone https://github.com/urashin/micro-volunteer-docs.git
+        $       cd micro-volunteer-docs/300_Environment/
 
 4.DockerのComposeの作成・起動
 
-	(1)MySQL（アプリがDB接続するため先に起動）
-	$	cd docker-mysql
-	$	docker-mysql配下mysql\my.cnfとmysql\db\micro_volunteer.sqlを配置。
-	$	docker-compose up -d
-	$	cd ../
+        (1)MySQL（アプリがDB接続するため先に起動）
+        $       cd docker-mysql
+        $       docker-mysql配下mysql\my.cnfとmysql\db\micro_volunteer.sqlを配置。
+        $       docker-compose up -d
+        $       cd ../
 
-	(2)SPRINGBOOT
-	$	cd app-compose/app
-	$	git clone https://github.com/urashin/micro-volunteer-pf.git
-	$	cd micro-volunteer-pf
-		src/main/resources/application.yml配置。api_uri修正　http://172.25.0.4:8000/v1/sns/send-request-volunteer
-	$	cd ../..
-	$	docker build app/ -t java
-	$	docker-compose --file docker-compose-java.yml up -d
-	$	cd ../
+        (2)SPRINGBOOT
+        $       cd app-compose/app
+        $       git clone https://github.com/urashin/micro-volunteer-pf.git
+        $       cd micro-volunteer-pf
+                src/main/resources/application.yml配置。api_uri修正　http://172.25.0.4:8000/v1/sns/send-request-volunteer
+        $       cd ../..
+        $       docker build app/ -t java
+        $       docker-compose --file docker-compose-java.yml up -d
+        $       cd ../
 
-	(3)Python
-	$ 	cd app-compose/app
-	$	git clone https://github.com/urashin/micro-volunteer-pf-python.git
-	$	app-compose/micro-volunteer-pf-python/config.py配置。
-		HTTP_HOST変更	172.25.0.4
-		MYSQL_HOST変更	172.25.0.3
-		JAVA_HOST変更	http://172.25.0.2:8080
-	$	cd micro-volunteer-pf-python
-	$	docker build ./ -t python_comp
-	$	cd ../..
-	$	docker-compose --file docker-compose-python.yml up -d
+        (3)Python
+        $       cd app-compose/app
+        $       git clone https://github.com/urashin/micro-volunteer-pf-python.git
+        $       app-compose/micro-volunteer-pf-python/config.py配置。
+                HTTP_HOST変更   172.25.0.4
+                MYSQL_HOST変更  172.25.0.3
+                JAVA_HOST変更   http://172.25.0.2:8080
+        $       cd micro-volunteer-pf-python
+        $       docker build ./ -t python_comp
+        $       cd ../..
+        $       docker-compose --file docker-compose-python.yml up -d
+       (4)Nginx
+        $       cd docker-webserver
+        $       mkdir -p var/www/html
+        $       mkdir -p etc/letsencrypt
+        $       etc/nginx/conf.d/micro-volunteer-supporter.com.confのHTTPS部分コメントアウト
+        $       docker-compose --file docker-compose-nginx.yml up -d
+        証明書作成
+        $       docker-compose --file docker-compose-nginx.yml run --rm certbot certonly --webroot -w /var/www/html -d micro-volunteer-supporter.com
+        $       etc/nginx/conf.d/micro-volunteer-supporter.com.confのHTTPS部分コメントアウト解除
+　　　　証明書有効か
+        $       docker-compose --file docker-compose-nginx.yml exec nginx nginx -s reload
+        証明書更新シェルに実行権限付与。
+        $       chmod 700 renew-cert.sh
+        cronなりに設定。
 
 
 【参考】
 不要「.Amazon Linuxの設定（本筋ではない）
-	(1)タイムゾーン設定(UTC-> JST)
-	$	cp -p /etc/localtime /etc/localtime.202121128
-	$	sudo ln -sf  /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
-	$	date
-		⇒JSTになっていること。
+        (1)タイムゾーン設定(UTC-> JST)
+        $       cp -p /etc/localtime /etc/localtime.202121128
+        $       sudo ln -sf  /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+        $       date
+                ⇒JSTになっていること。
 
-	(2)LANG設定(en_US.UTF8->ja_JP.utf8)
-	$	/etc/sysconfig/i18n
-	$	sudo localectl set-locale LANG=ja_JP.utf8
-	$	source /etc/locale.conf
-	一度ログアウトして再度ログイン。
-	$	locale
-		⇒ja_JP.utf8となっていることを確認。
+        (2)LANG設定(en_US.UTF8->ja_JP.utf8)
+        $       /etc/sysconfig/i18n
+        $       sudo localectl set-locale LANG=ja_JP.utf8
+        $       source /etc/locale.conf
+        一度ログアウトして再度ログイン。
+        $       locale
+                ⇒ja_JP.utf8となっていることを確認。
 
-	(3)syslogのタイムゾーン反映
-	$	systemctl status rsyslog
-	$	sudo systemctl restart rsyslog
-	$	systemctl status rsyslog
+        (3)syslogのタイムゾーン反映
+        $       systemctl status rsyslog
+        $       sudo systemctl restart rsyslog
+        $       systemctl status rsyslog
 
 
 
@@ -114,3 +131,4 @@ docker network prune
 docker stop volunteer_python
 docker stop volunteer_springboot
 docker stop volunteer_mysql
+docker stop docker-webserver_nginx
